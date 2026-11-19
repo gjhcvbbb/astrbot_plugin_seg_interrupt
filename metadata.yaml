@@ -6,3 +6,10 @@ version: 1.2.1
 display_name: 可打断分段
 repo: https://github.com/gjhcvbbb/astrbot_plugin_seg_interrupt
 astrbot_version: ">=4.11,<5"
+support_platforms:
+  - aiocqhttp
+social_link: https://github.com/gjhcvbbb
+tags:
+  - 分段回复
+  - 消息打断
+  - 体验优化
