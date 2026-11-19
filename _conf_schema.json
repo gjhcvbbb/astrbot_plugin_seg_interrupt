@@ -1,0 +1,24 @@
+{
+  "enabled": {
+    "type": "bool",
+    "description": "启用可打断分段",
+    "hint": "关闭后完全不干预，框架的分段回复照旧。",
+    "default": true
+  },
+  "scope": {
+    "type": "string",
+    "description": "生效场景",
+    "options": [
+      "private",
+      "group",
+      "both"
+    ],
+    "default": "private"
+  },
+  "interrupt_on_new_message": {
+    "type": "bool",
+    "description": "新消息到达时打断",
+    "hint": "关闭后所有分段都会发完。",
+    "default": true
+  }
+}
