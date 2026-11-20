@@ -61,7 +61,7 @@ git clone https://github.com/gjhcvbbb/astrbot_plugin_seg_interrupt.git \
 | 配置项 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | `enabled` | bool | `true` | 总开关，关掉后完全不干预 |
-| `scope` | string | `private` | 生效场景：`private` / `group` / `both` |
+| `scope` | string | `private` | 生效场景：`private` / `group` / `both`；写成别的值会退回 `private` 并打一条警告 |
 | `interrupt_on_new_message` | bool | `true` | 关掉后所有分段都会发完（等于只做监听不做拦截） |
 
 插件**不会**修改框架的「分段回复」配置。切句规则、发送间隔、字数阈值仍然是框架自己的，
@@ -101,7 +101,7 @@ class AiocqhttpMessageEvent(AstrMessageEvent):
 ```python
 original = event.send
 async def gated_send(message, *args, **kwargs):
-    if getattr(event, "__seg_interrupt_cancelled", False):
+    if getattr(event, "_seg_interrupt_cancelled", False):
         return None
     return await original(message, *args, **kwargs)
 event.send = gated_send

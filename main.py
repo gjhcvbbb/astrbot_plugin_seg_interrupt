@@ -22,19 +22,30 @@ from astrbot.api.star import Context, Star, register
 PLUGIN_NAME = "astrbot_plugin_seg_interrupt"
 CANCEL_FLAG = "_seg_interrupt_cancelled"
 GATE_FLAG = "_seg_interrupt_gated"
+SCOPES = ("private", "group", "both")
 
 
 @register(
     PLUGIN_NAME,
-    "dsh",
+    "gjhcvbbb",
     "新消息到达时打断上一条还没发完的分段回复",
-    "1.2.1",
+    "1.2.2",
 )
 class SegInterrupt(Star):
     def __init__(self, context: Context, config: dict | None = None):
         super().__init__(context)
         self.config = config or {}
         self._current: dict[str, object] = {}
+        # scope 只接受三个值；写错时退回默认的 private，并留下一条警告，
+        # 避免拼错（如 "priv"）被静默当成 "both" 而在群里也生效。
+        scope = str(self._opt("scope", "private")).strip().lower()
+        if scope not in SCOPES:
+            logger.warning(
+                '[分段打断] scope="%s" 不是 %s，已退回 private。'
+                % (scope, "/".join(SCOPES))
+            )
+            scope = "private"
+        self._scope = scope
 
     # ------------------------------------------------------------------ helpers
     def _opt(self, key, default):
@@ -42,7 +53,7 @@ class SegInterrupt(Star):
         return default if value is None else value
 
     def _scope_ok(self, event: AstrMessageEvent) -> bool:
-        scope = str(self._opt("scope", "private")).lower()
+        scope = self._scope
         if scope == "private":
             return bool(event.is_private_chat())
         if scope == "group":

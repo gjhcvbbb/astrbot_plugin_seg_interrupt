@@ -2,7 +2,7 @@ name: astrbot_plugin_seg_interrupt
 desc: "可打断的分段回复：用户发来新消息时，立刻停止上一条还没发完的分段"
 short_desc: "新消息打断未发完的分段回复"
 author: gjhcvbbb
-version: 1.2.1
+version: 1.2.2
 display_name: 可打断分段
 repo: https://github.com/gjhcvbbb/astrbot_plugin_seg_interrupt
 astrbot_version: ">=4.11,<5"
